@@ -17,7 +17,7 @@ public sealed class BrainfuckInterpreter
 
     private sealed class InterpreterImp
     {
-        private int programPointer;
+        private int instructionPointer;
         private int dataPointer;
         private readonly byte[] data;
         private readonly string program;
@@ -36,47 +36,47 @@ public sealed class BrainfuckInterpreter
                 InterpretInstruction();
         }
 
-        private bool IsDone => program.Length <= programPointer;
+        private bool IsDone => program.Length <= instructionPointer;
 
         private void InterpretInstruction()
         {
-            var instruction = program[programPointer];
+            var instruction = program[instructionPointer];
             switch (instruction)
             {
                 case '>':
                     dataPointer++;
-                    programPointer++;
+                    instructionPointer++;
                     break;
                 case '<':
                     dataPointer--;
-                    programPointer++;
+                    instructionPointer++;
                     break;
                 case '+':
                     data[dataPointer]++;
-                    programPointer++;
+                    instructionPointer++;
                     break;
                 case '-':
                     data[dataPointer]--;
-                    programPointer++;
+                    instructionPointer++;
                     break;
                 case '.':
                     output.Write((char)data[dataPointer]);
-                    programPointer++;
+                    instructionPointer++;
                     break;
                 case '[':
                     if (data[dataPointer] == 0)
-                        programPointer = program.IndexOf(']', programPointer);
+                        instructionPointer = program.IndexOf(']', instructionPointer);
                     else
-                        programPointer++;
+                        instructionPointer++;
                     break;
                 case ']':
                     if (data[dataPointer] != 0)
-                        programPointer = program.LastIndexOf('[', programPointer);
+                        instructionPointer = program.LastIndexOf('[', instructionPointer);
                     else
-                        programPointer++;
+                        instructionPointer++;
                     break;
                 default:
-                    programPointer++;
+                    instructionPointer++;
                     break;
             }
         }
