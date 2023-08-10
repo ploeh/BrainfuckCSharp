@@ -7,6 +7,7 @@ public sealed class BrainfuckInterpreterTests
     [Theory]
     [InlineData("++++++++++++++++++++++++++++++++.", " ")] // 32 increments; ASCII 32 is space
     [InlineData("+++++++++++++++++++++++++++++++++.", "!")] // 33 increments; ASCII 32 is !
+    [InlineData("+>++++++++++++++++++++++++++++++++.", " ")] // 32 increments after >; ASCII 32 is space
     public void Run(string program, string expected)
     {
         using var output = new StringWriter();

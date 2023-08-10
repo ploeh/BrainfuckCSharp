@@ -18,6 +18,7 @@ public sealed class BrainfuckInterpreter
     private sealed class InterpreterImp
     {
         private int programPointer;
+        private int dataPointer;
         private readonly byte[] data;
         private readonly string program;
         private readonly StringWriter output;
@@ -42,12 +43,16 @@ public sealed class BrainfuckInterpreter
             var instruction = program[programPointer];
             switch (instruction)
             {
+                case '>':
+                    dataPointer++;
+                    programPointer++;
+                    break;
                 case '+':
-                    data[0]++;
+                    data[dataPointer]++;
                     programPointer++;
                     break;
                 case '.':
-                    output.Write((char)data[0]);
+                    output.Write((char)data[dataPointer]);
                     programPointer++;
                     break;
                 default:
