@@ -11,6 +11,49 @@ public sealed class BrainfuckInterpreter
 
     public void Run(string program)
     {
-        output.Write(' ');
+        var imp = new InterpreterImp(program, output);
+        imp.Run();
+    }
+
+    private sealed class InterpreterImp
+    {
+        private int programPointer;
+        private readonly byte[] data;
+        private readonly string program;
+        private readonly StringWriter output;
+
+        internal InterpreterImp(string program, StringWriter output)
+        {
+            data = new byte[30_000];
+            this.program = program;
+            this.output = output;
+        }
+
+        internal void Run()
+        {
+            while (!IsDone)
+                InterpretInstruction();
+        }
+
+        private bool IsDone => program.Length <= programPointer;
+
+        private void InterpretInstruction()
+        {
+            var instruction = program[programPointer];
+            switch (instruction)
+            {
+                case '+':
+                    data[0]++;
+                    programPointer++;
+                    break;
+                case '.':
+                    output.Write((char)data[0]);
+                    programPointer++;
+                    break;
+                default:
+                    programPointer++;
+                    break;
+            }
+        }
     }
 }
