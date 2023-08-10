@@ -1,17 +1,16 @@
-﻿namespace Ploeh.Katas.BrainfuckCSharp
+﻿namespace Ploeh.Katas.BrainfuckCSharp;
+
+public sealed class BrainfuckInterpreter
 {
-    internal class BrainfuckInterpreter
+    private readonly StringWriter output;
+
+    public BrainfuckInterpreter(StringWriter output)
     {
-        private readonly StringWriter output;
+        this.output = output;
+    }
 
-        public BrainfuckInterpreter(StringWriter output)
-        {
-            this.output = output;
-        }
-
-        internal void Run(string program)
-        {
-            output.Write(' ');
-        }
+    public void Run(string program)
+    {
+        output.Write(' ');
     }
 }
