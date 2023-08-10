@@ -2,9 +2,9 @@
 
 public sealed class BrainfuckInterpreter
 {
-    private readonly StringWriter output;
+    private readonly TextWriter output;
 
-    public BrainfuckInterpreter(StringWriter output)
+    public BrainfuckInterpreter(TextWriter output)
     {
         this.output = output;
     }
@@ -21,9 +21,9 @@ public sealed class BrainfuckInterpreter
         private int dataPointer;
         private readonly byte[] data;
         private readonly string program;
-        private readonly StringWriter output;
+        private readonly TextWriter output;
 
-        internal InterpreterImp(string program, StringWriter output)
+        internal InterpreterImp(string program, TextWriter output)
         {
             data = new byte[30_000];
             this.program = program;
