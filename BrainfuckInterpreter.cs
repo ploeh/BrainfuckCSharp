@@ -2,16 +2,18 @@
 
 public sealed class BrainfuckInterpreter
 {
+    private readonly TextReader input;
     private readonly TextWriter output;
 
-    public BrainfuckInterpreter(TextWriter output)
+    public BrainfuckInterpreter(TextReader input, TextWriter output)
     {
+        this.input = input;
         this.output = output;
     }
 
     public void Run(string program)
     {
-        var imp = new InterpreterImp(program, output);
+        var imp = new InterpreterImp(program, input, output);
         imp.Run();
     }
 
@@ -21,12 +23,14 @@ public sealed class BrainfuckInterpreter
         private int dataPointer;
         private readonly byte[] data;
         private readonly string program;
+        private readonly TextReader input;
         private readonly TextWriter output;
 
-        internal InterpreterImp(string program, TextWriter output)
+        internal InterpreterImp(string program, TextReader input, TextWriter output)
         {
             data = new byte[30_000];
             this.program = program;
+            this.input = input;
             this.output = output;
         }
 
@@ -63,6 +67,10 @@ public sealed class BrainfuckInterpreter
                     break;
                 case '.':
                     output.Write((char)data[dataPointer]);
+                    instructionPointer++;
+                    break;
+                case ',':
+                    data[dataPointer] = (byte)input.Read();
                     instructionPointer++;
                     break;
                 case '[':
