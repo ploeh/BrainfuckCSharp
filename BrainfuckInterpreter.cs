@@ -47,6 +47,10 @@ public sealed class BrainfuckInterpreter
                     dataPointer++;
                     programPointer++;
                     break;
+                case '<':
+                    dataPointer--;
+                    programPointer++;
+                    break;
                 case '+':
                     data[dataPointer]++;
                     programPointer++;
