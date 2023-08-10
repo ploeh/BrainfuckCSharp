@@ -63,6 +63,18 @@ public sealed class BrainfuckInterpreter
                     output.Write((char)data[dataPointer]);
                     programPointer++;
                     break;
+                case '[':
+                    if (data[dataPointer] == 0)
+                        programPointer = program.IndexOf(']', programPointer);
+                    else
+                        programPointer++;
+                    break;
+                case ']':
+                    if (data[dataPointer] != 0)
+                        programPointer = program.LastIndexOf('[', programPointer);
+                    else
+                        programPointer++;
+                    break;
                 default:
                     programPointer++;
                     break;
