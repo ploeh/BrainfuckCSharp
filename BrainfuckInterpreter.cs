@@ -40,6 +40,8 @@ public sealed class BrainfuckInterpreter
 
         private void InterpretInstruction()
         {
+            WrapDataPointer();
+
             var instruction = program[instructionPointer];
             switch (instruction)
             {
@@ -65,13 +67,13 @@ public sealed class BrainfuckInterpreter
                     break;
                 case '[':
                     if (data[dataPointer] == 0)
-                        instructionPointer = program.IndexOf(']', instructionPointer);
+                        MoveToMatchingClose();
                     else
                         instructionPointer++;
                     break;
                 case ']':
                     if (data[dataPointer] != 0)
-                        instructionPointer = program.LastIndexOf('[', instructionPointer);
+                        MoveToMatchingOpen();
                     else
                         instructionPointer++;
                     break;
@@ -79,6 +81,42 @@ public sealed class BrainfuckInterpreter
                     instructionPointer++;
                     break;
             }
+        }
+
+        private void WrapDataPointer()
+        {
+            if (dataPointer == -1)
+                dataPointer = data.Length - 1;
+            if (dataPointer == data.Length)
+                dataPointer = 0;
+        }
+
+        private void MoveToMatchingClose()
+        {
+            var nestingLevel = 1;
+            while (0 < nestingLevel)
+            {
+                instructionPointer++;
+                if (program[instructionPointer] == '[')
+                    nestingLevel++;
+                if (program[instructionPointer] == ']')
+                    nestingLevel--;
+            }
+            instructionPointer++;
+        }
+
+        private void MoveToMatchingOpen()
+        {
+            var nestingLevel = 1;
+            while (0 < nestingLevel)
+            {
+                instructionPointer--;
+                if (program[instructionPointer] == ']')
+                    nestingLevel++;
+                if (program[instructionPointer] == '[')
+                    nestingLevel--;
+            }
+            instructionPointer++;
         }
     }
 }
