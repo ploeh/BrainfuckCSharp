@@ -51,6 +51,10 @@ public sealed class BrainfuckInterpreter
                     data[dataPointer]++;
                     programPointer++;
                     break;
+                case '-':
+                    data[dataPointer]--;
+                    programPointer++;
+                    break;
                 case '.':
                     output.Write((char)data[dataPointer]);
                     programPointer++;
